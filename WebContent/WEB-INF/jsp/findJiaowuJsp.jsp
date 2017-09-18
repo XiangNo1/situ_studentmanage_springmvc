@@ -95,13 +95,8 @@
 				      
 				      
 				       <form id="searchForm" class="container" action="${pageContext.request.contextPath}/banji/searchstudent.action" method="post">
-					           	 学生:<select id="studentSearch" name="studentSearch">
-					           	 <option value="">不限</option>
-	        					 <c:forEach items="${studentList }" var="student">
-					              	 <option value="${student.id }">${student.name }</option>
-					               
-					     		  </c:forEach>        
-					           	</select>
+					           	 请输入要查询的学生ID:
+					           	 <input id="studentSearch" name="studentSearch" value="${studentSearch }"/>
 					           	&nbsp;&nbsp;&nbsp;
 					      	 <button class="btn btn-primary">搜索</button>
 					    </form>
@@ -175,18 +170,7 @@
 			  </ul>
 				</nav>
 				<!-- 分页结束 -->
-		     
-		
 	<script>
-	
-	
-	
-	
-
-	$(function(){
-	       $("#studentSearch option[value='${studentSearch}']").prop("selected", true);
-	    });
-	
 </script>	
 	</body>
 </html>
