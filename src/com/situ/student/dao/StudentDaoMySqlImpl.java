@@ -1003,4 +1003,100 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 		}
 		return list;
 	}
+
+	@Override
+	public int getBanjiStudentTotalCount() {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		int result = 0;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT * FROM banji LEFT JOIN student ON banji.id=student.banji_id;";
+			preparedStatement = connection.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				result++;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+		return result;
+	}
+
+	@Override
+	public List findBanjiStudentPageBeanList(int index, int pageSize) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Map<String, Object>> list = null;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT banji.name as banji_name,student.name as student_name FROM banji LEFT JOIN student ON banji.id=student.banji_id limit ?,?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, index);
+			preparedStatement.setInt(2, pageSize);
+			resultSet = preparedStatement.executeQuery();
+			list = ModelConvert.convertList(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+		return list;
+	}
+
+	@Override
+	public int getBanjiStudent2TotalCount(Integer id) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		int result = 0;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT * FROM banji LEFT JOIN student ON banji.id=student.banji_id where banji.id=?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				result++;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+		return result;
+	}
+
+	@Override
+	public List findBanjiStudent2PageBeanList(int index, int pageSize, Integer id) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Map<String, Object>> list = null;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT banji.name as banji_name,student.name as student_name FROM banji LEFT JOIN student ON banji.id=student.banji_id where banji.id=? limit ?,?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, index);
+			preparedStatement.setInt(3, pageSize);
+			resultSet = preparedStatement.executeQuery();
+			list = ModelConvert.convertList(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+		return list;
+	}
 }

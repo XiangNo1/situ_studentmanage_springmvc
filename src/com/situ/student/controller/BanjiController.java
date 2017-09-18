@@ -25,6 +25,49 @@ public class BanjiController {
 
 	IStudentService studentService = new StudentServiceImpl();
 	
+	@RequestMapping(value="/searchBanjiStudent")
+	public ModelAndView searchBanjiStudent(Integer banjiSearch, ModelAndView modelAndView, String pageIndex, String pageSize){
+		if (banjiSearch == null) {
+			modelAndView.setViewName("redirect:/banji/findBanjiStudent.action");
+			return modelAndView;
+		}
+		int pageIndex1 = 1;
+		if (pageIndex!= null && !pageIndex.equals("")) {
+			pageIndex1 = Integer.parseInt(pageIndex);
+		}
+		int pageSize1 = 3;
+		if (pageSize != null && !pageSize.equals("")) {
+			pageSize1 = Integer.parseInt(pageSize);
+		}
+		PageBean pageBean = studentService.getPageBeanBanjiStudentSearch(pageIndex1,pageSize1,banjiSearch);
+		System.out.println(pageBean);
+		modelAndView.addObject("list", pageBean);
+		List<Banji> list = studentService.findBanji();
+		modelAndView.addObject("banjiList", list);
+		modelAndView.addObject("banjiSearch_id", banjiSearch);
+		modelAndView.setViewName("findBanjiStudentJsp");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/findBanjiStudent")
+	public ModelAndView findBanjiStudent(ModelAndView modelAndView, String pageIndex, String pageSize){
+		int pageIndex1 = 1;
+		if (pageIndex!= null && !pageIndex.equals("")) {
+			pageIndex1 = Integer.parseInt(pageIndex);
+		}
+		int pageSize1 = 3;
+		if (pageSize != null && !pageSize.equals("")) {
+			pageSize1 = Integer.parseInt(pageSize);
+		}
+		PageBean pageBean = studentService.getPageBeanBanjiStudent(pageIndex1,pageSize1);
+		System.out.println(pageBean);
+		modelAndView.addObject("list", pageBean);
+		List<Banji> list = studentService.findAllBanji();
+		modelAndView.addObject("banjiList", list);
+		modelAndView.setViewName("findBanjiStudentJsp");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="/searchBanjiKecheng")
 	public ModelAndView searchBanjiKecheng(Integer banjiSearch, ModelAndView modelAndView, String pageIndex, String pageSize){
 		if (banjiSearch == null) {
@@ -39,7 +82,6 @@ public class BanjiController {
 		if (pageSize != null && !pageSize.equals("")) {
 			pageSize1 = Integer.parseInt(pageSize);
 		}
-		IStudentService studentService = new StudentServiceImpl();
 		PageBean pageBean = studentService.getPageBeanBanjiKechengSearch(pageIndex1,pageSize1,banjiSearch);
 		System.out.println(pageBean);
 		modelAndView.addObject("list", pageBean);

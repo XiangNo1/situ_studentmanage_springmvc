@@ -72,9 +72,9 @@
 		        <div class="col-md-2">
 		            <div class="list-group">
 		                <a href="${pageContext.request.contextPath}/banji/findJiaowu.action" class="list-group-item">学生教务管理</a>
-		               		                <a href="${pageContext.request.contextPath}/banji/findBanjiKecheng.action" class="list-group-item">班级课程管理</a>
-		               		                <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action" class="list-group-item">班级学生查询</a>
-		                <a href="${pageContext.request.contextPath}/banji/addJiaowu.action" class="list-group-item active">为班级添加课程</a>
+		                <a href="${pageContext.request.contextPath}/banji/findBanjiKecheng.action" class="list-group-item">班级课程管理</a>
+		                <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action" class="list-group-item active">班级学生查询</a>
+		                <a href="${pageContext.request.contextPath}/banji/addJiaowu.action" class="list-group-item">为班级添加课程</a>
 		            </div>
 		        </div>
 		        <div class="col-md-10">
@@ -82,47 +82,107 @@
 		                <li>
 		                    <a href="${pageContext.request.contextPath}/banji/findJiaowu.action">学生教务管理</a>
 		                </li>
-		                 <li>
+		                <li>
 		                     <a href="${pageContext.request.contextPath}/banji/findBanjiKecheng.action">班级课程管理</a>
 		                </li>
-		                 <li>
+		                <li class="active">
 		                     <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action">班级学生查询</a>
 		                </li>
-		                <li class="active">
+		                <li>
 		                     <a href="${pageContext.request.contextPath}/banji/addJiaowu.action">为班级添加课程</a>
 		                </li>
 		            </ul>
 				      
-		           <form action="${pageContext.request.contextPath}/banji/addJiaowu2.action" method="post">
-					            <span style="line-height:30px;" class="text-info">为班级添加课程：</span><br/>
-					            <div class="alert alert-danger" role="alert">请不要为班级添加重复的课程！！！</div>
-					        <span style="line-height:30px;" class="text-info">    班级：</span><select id="banji" name="banji"  class="form-control">
-	        				 	<c:forEach items="${banjiList }" var="banjis">
-					               <option value="${banjis.id }">${banjis.name }</option>
-					               
-					    	   </c:forEach>        
-					           	</select>
-					     	<span style="line-height:30px;" class="text-info">课程：</span><select id="kecheng" name="kecheng"  class="form-control">
-	        				 	<c:forEach items="${kechengList }" var="kecheng">
-					               <option value="${kecheng.id }">${kecheng.name }</option>
-					               
-					    	   </c:forEach>        
-					           	</select>
-					           	<input class="btn btn-primary" type="submit" value="添加"/>
-		            </form>
-		            </div> 
 				      
-		           
+				      <form id="searchForm" class="container" action="${pageContext.request.contextPath}/banji/searchBanjiStudent.action" method="post">
+					           	班级:<select id="banjiSearch" name="banjiSearch">
+					           	 <option value="">不限</option>
+	        					 <c:forEach items="${banjiList }" var="banji">
+					              	 <option value="${banji.id }">${banji.name }</option>
+					               
+					     		  </c:forEach>        
+					           	</select>
+					           	&nbsp;&nbsp;&nbsp;
+					      	 <button class="btn btn-primary">搜索</button>
+					    </form>
+				      
+		            <table class="table">
+		            <tr>
+		            	<td>班级名称</td>
+		            	<td>学生名称</td>
+		            </tr>
+		                <c:forEach items="${requestScope.list.list }" var="student">
+				            <tr>
+				               		<td>${student['banji_name'] }</td>
+				                	<td>${student['student_name'] }</td>
+				            </tr>
+		                </c:forEach>
+		            </table>
 		      </div>
 		      </div>
+		      
+		       <!-- 分页开始 -->
+				<nav aria-label="Page navigation" class="pull-right">
+				 <ul class="pagination">
+			    <c:if test="${list.pageIndex==1}">
+		              <li class="disabled">
+		                 <a href="javascript:void(0);" aria-label="Previous">
+		                   <span aria-hidden="true">&laquo;</span>
+		                 </a>
+		              </li>
+          		 </c:if>
+		           <c:if test="${list.pageIndex!=1}">
+		              <li>
+		                 <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action?pageIndex=${list.pageIndex-1}" aria-label="Previous">
+		                   <span aria-hidden="true">&laquo;</span>
+		                 </a>
+		              </li>
+		           </c:if>
+
+			   <c:forEach begin="1" end="${list.totalPage}" var="page">
+              <c:if test="${list.pageIndex!=page}">
+                   <li><a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action?pageIndex=${page}">${page}</a></li>
+              </c:if>
+              <!-- 遍历的时候page和pageIndex相等，高亮显示 -->
+              <c:if test="${list.pageIndex==page}">
+                   <li class="active"><a href="javascript:void(0);">${page}</a></li>
+              </c:if>
+           </c:forEach>
+
+			  
+			   
+			 <c:if test="${list.pageIndex == list.totalPage}">
+		              <li class="disabled">
+		                 <a href="javascript:void(0);" aria-label="Previous">
+		                   <span aria-hidden="true">&raquo;</span>
+		                 </a>
+		              </li>
+          		 </c:if>
+		           <c:if test="${list.pageIndex!=list.totalPage}">
+		              <li>
+		                 <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action?pageIndex=${list.pageIndex+1}" aria-label="Previous">
+		                   <span aria-hidden="true">&raquo;</span>
+		                 </a>
+		              </li>
+		           </c:if>
+			 
+			 
+			 
+			  </ul>
+				</nav>
+				<!-- 分页结束 -->
 		     
 		
 	<script>
 	
 	
 	
+	
 
-
+	$(function(){
+	       $("#banjiSearch option[value='${banjiSearch_id}']").prop("selected", true);
+	    });
+	
 </script>	
 	</body>
 </html>

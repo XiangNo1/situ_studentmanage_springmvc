@@ -72,4 +72,8 @@ public interface IStudentService{
 
 	PageBean getPageBeanBanjiKechengSearch(int pageIndex1, int pageSize1, Integer banjiSearch);
 
+	PageBean getPageBeanBanjiStudent(int pageIndex1, int pageSize1);
+
+	PageBean getPageBeanBanjiStudentSearch(int pageIndex1, int pageSize1, Integer banjiSearch);
+
 }

@@ -73,6 +73,7 @@
 		            <div class="list-group">
 		                <a href="${pageContext.request.contextPath}/banji/findJiaowu.action" class="list-group-item active">学生教务管理</a>
 		                <a href="${pageContext.request.contextPath}/banji/findBanjiKecheng.action" class="list-group-item">班级课程管理</a>
+		                <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action" class="list-group-item">班级学生查询</a>
 		                <a href="${pageContext.request.contextPath}/banji/addJiaowu.action" class="list-group-item">为班级添加课程</a>
 		            </div>
 		        </div>
@@ -83,6 +84,9 @@
 		                </li>
 		                <li>
 		                     <a href="${pageContext.request.contextPath}/banji/findBanjiKecheng.action">班级课程管理</a>
+		                </li>
+		                <li>
+		                     <a href="${pageContext.request.contextPath}/banji/findBanjiStudent.action">班级学生查询</a>
 		                </li>
 		                <li>
 		                     <a href="${pageContext.request.contextPath}/banji/addJiaowu.action">为班级添加课程</a>
